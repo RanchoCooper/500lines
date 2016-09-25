@@ -1,4 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @author   : Rancho Cooper
+# @date     : 2016-09-26 00:40
+# @email    : ranchocooper@gmail.com
+
+
 class ValueRef(object):
+
     def prepare_to_store(self, storage):
         pass
 
@@ -19,9 +27,9 @@ class ValueRef(object):
         return self._address
 
     def get(self, storage):
+        # hadn't established ref to obj
         if self._referent is None and self._address:
             self._referent = self.string_to_referent(storage.read(self._address))
-        return self._referent
 
     def store(self, storage):
         if self._referent is not None and not self._address:
@@ -69,7 +77,8 @@ class LogicalBase(object):
         if not self._storage.locked:
             self._refresh_tree_ref()
         root = self._follow(self._tree_ref)
-        if root:
-            return root.length
-        else:
-            return 0
+        return root.length if root else 0
+        # if root:
+        #     return root.length
+        # else:
+        #     return 0
